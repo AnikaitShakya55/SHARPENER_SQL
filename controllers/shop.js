@@ -7,11 +7,25 @@ exports.getProducts = (req, res, next) => {
         prods: row,
         pageTitle: "All Products",
         path: "/products",
-      }); 
+      });
     })
     .catch((err) => {
       console.log(err);
     });
+};
+
+// productDetails
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+  Product.findById(prodId)
+    .then(([row]) => {
+      res.render("shop/product-detail", {
+        product: row[0],
+        pageTitle: row[0].title,
+        path: "/products",
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.getIndex = (req, res, next) => {
