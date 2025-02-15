@@ -14,9 +14,17 @@ app.set("views", "views");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 
+// all about DATABASE CONNECTTION WITH SQL
 db.database_connection();
+db.pool
+  .promise()
+  .execute("SELECT * FROM products")
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((err) => console.log(err));
 
-// db.execute("SELECT * FROM products");
+//   DATABASE CONNECTION ENDS WITH SQL
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
