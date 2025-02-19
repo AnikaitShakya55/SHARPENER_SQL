@@ -2,7 +2,7 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const db = require("./util/database.js");
+const sequelize = require("./util/database.js");
 
 const errorController = require("./controllers/error");
 
@@ -15,14 +15,14 @@ const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 
 // all about DATABASE CONNECTTION WITH SQL
-db.database_connection();
-db.pool
-  .promise()
-  .execute("SELECT * FROM products")
-  .then((data) => {
-    // console.log(data);
-  })
-  .catch((err) => console.log(err));
+// db.database_connection();
+// db.pool
+//   .promise()
+//   .execute("SELECT * FROM products")
+//   .then((data) => {
+//     // console.log(data);
+//   })
+//   .catch((err) => console.log(err));
 
 //   DATABASE CONNECTION ENDS WITH SQL
 
@@ -34,4 +34,12 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000);
+sequelize
+  .sync()
+  .then((res) => {
+    // console.log(res);
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
