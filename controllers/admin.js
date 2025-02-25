@@ -13,12 +13,20 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  Product.create({
-    title: title,
-    price: price,
-    imageUrl: imageUrl,
-    description: description,
-  })
+  // Product.create({
+  //   title: title,
+  //   price: price,
+  //   imageUrl: imageUrl,
+  //   description: description,
+  //   UserId: req.user.id,
+  // })
+  req.user
+    .createProduct({
+      title: title,
+      price: price,
+      imageUrl: imageUrl,
+      description: description,
+    })
     .then((result) => {
       // console.log(result);
       console.log("Created Product");
@@ -76,7 +84,7 @@ exports.postEditProduct = (req, res, next) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send("Internal Server Error"); 
+      res.status(500).send("Internal Server Error");
     });
 };
 
